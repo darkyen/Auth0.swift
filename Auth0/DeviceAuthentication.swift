@@ -25,7 +25,7 @@ import Foundation
 
 extension Auth0Authentication {
     public func startDeviceFlow(audience: String, scope: String) -> Request<DeviceResponse, AuthenticationError> {
-        let deviceEndpoint = URL(string:"/oauth/device/code", relativeTo: self.url);
+        let deviceEndpoint = URL(string:"/oauth/device/code", relativeTo: self.url)!
         
         let payload: [String: Any] = [
             "client_id": self.clientId,
@@ -37,8 +37,9 @@ extension Auth0Authentication {
     }
     
     public func checkDeviceActivation(deviceResponse: DeviceResponse) -> Request<Credentials, AuthenticationError>{
-        let tokenEndpoint = URL(string: "/oauth/token", relativeTo: self.url);
-        let payload: [String: Any] = [
+        let tokenEndpoint = URL(string: "/oauth/token", relativeTo: self.url)!
+        
+        let payload: [String: String] = [
             "client_id": self.clientId,
             "device_code": deviceResponse.deviceCode,
             "grant_type": "urn:ietf:params:oauth:grant-type:device_code"

@@ -22,7 +22,7 @@
 
 import Foundation
 
-class DeviceResponse: NSObject, JSONObjectPayload, NSSecureCoding {
+public class DeviceResponse: NSObject, JSONObjectPayload, NSSecureCoding {
     public let deviceCode: String!
     public let userCode: String!
     public let verificationUri: String!
