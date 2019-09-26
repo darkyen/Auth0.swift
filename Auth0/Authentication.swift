@@ -524,6 +524,9 @@ public protocol Authentication: Trackable, Loggable {
      */
     func webAuth(withConnection connection: String) -> WebAuth
 #endif
+    
+    func startDeviceFlow(audience: String, scope: String) -> Request<DeviceResponse, AuthenticationError>
+    func checkDeviceActivation(deviceResponse: DeviceResponse) -> Request<Credentials, AuthenticationError>
 }
 
 /**
@@ -928,18 +931,5 @@ public extension Authentication {
                        "scope": scope ?? "openid profile offline_access"]
         parameters["audience"] = audience
         return self.tokenExchange(withParameters: parameters)
-    }
-    /**
-    start OAuth2.0 Device Flow
-     */
-    func startDeviceFlow(audience: String, scope: String) -> Request<DeviceResponse, AuthenticationError> {
-        return self.startDeviceFlow(audience: audience, scope: scope);
-    }
-    
-    /**
-    complete device flow
-     */
-    func checkDeviceActivation(deviceResponse: DeviceResponse) -> Request<Credentials, AuthenticationError> {
-        return self.checkDeviceActivation(deviceResponse: deviceResponse);
     }
 }

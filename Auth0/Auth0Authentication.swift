@@ -245,4 +245,29 @@ struct Auth0Authentication: Authentication {
             .connection(connection)
     }
     #endif
+    
+    
+    public func startDeviceFlow(audience: String, scope: String) -> Request<DeviceResponse, AuthenticationError> {
+        let deviceEndpoint = URL(string:"/oauth/device/code", relativeTo: self.url)!
+        
+        let payload: [String: Any] = [
+            "client_id": self.clientId,
+            "audience": audience,
+            "scope": scope
+        ];
+        
+        return Request(session: session, url: deviceEndpoint, method: "POST", handle: authenticationObject, payload: payload, logger: self.logger, telemetry: self.telemetry)
+    }
+    
+    public func checkDeviceActivation(deviceResponse: DeviceResponse) -> Request<Credentials, AuthenticationError>{
+        let tokenEndpoint = URL(string: "/oauth/token", relativeTo: self.url)!
+        
+        let payload: [String: String] = [
+            "client_id": self.clientId,
+            "device_code": deviceResponse.deviceCode,
+            "grant_type": "urn:ietf:params:oauth:grant-type:device_code"
+        ]
+                
+        return Request(session: session, url: tokenEndpoint, method: "POST", handle: authenticationObject, payload: payload, logger: self.logger, telemetry: self.telemetry)
+    }
 }
