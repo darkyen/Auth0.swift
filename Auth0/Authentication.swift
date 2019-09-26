@@ -929,4 +929,17 @@ public extension Authentication {
         parameters["audience"] = audience
         return self.tokenExchange(withParameters: parameters)
     }
+    /**
+    start OAuth2.0 Device Flow
+     */
+    func startDeviceFlow(audience: String, scope: String) -> Request<DeviceResponse, AuthenticationError> {
+        return self.startDeviceFlow(audience: audience, scope: scope);
+    }
+    
+    /**
+    complete device flow
+     */
+    func checkDeviceActivation(deviceResponse: DeviceResponse) -> Request<Credentials, AuthenticationError> {
+        return self.checkDeviceActivation(deviceResponse: deviceResponse);
+    }
 }
