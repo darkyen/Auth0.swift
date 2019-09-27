@@ -28,19 +28,22 @@ public class DeviceResponse: NSObject, JSONObjectPayload, NSSecureCoding {
     public let verificationUri: String!
     public let verificationUriComplete: String!
     public let expiresIn: Date!;
+    public let interval: TimeInterval;
     
     public init(
         deviceCode: String,
         userCode: String,
         verificationUri: String,
         verificationUriComplete: String,
-        expiresIn: Date
+        expiresIn: Date,
+        interval: TimeInterval
     ) {
         self.deviceCode = deviceCode;
         self.userCode = userCode;
         self.verificationUri = verificationUri;
         self.verificationUriComplete = verificationUriComplete;
         self.expiresIn = expiresIn;
+        self.interval = interval;
     }
     
     
@@ -63,7 +66,8 @@ public class DeviceResponse: NSObject, JSONObjectPayload, NSSecureCoding {
                userCode: json["user_code"] as! String,
                verificationUri: json["verification_uri"] as! String,
                verificationUriComplete: json["verification_uri_complete"] as! String,
-               expiresIn: expiresIn!
+               expiresIn: expiresIn!,
+               interval: json["interval"] as! TimeInterval
         )
     }
     
@@ -74,13 +78,15 @@ public class DeviceResponse: NSObject, JSONObjectPayload, NSSecureCoding {
         let verificationUri = aDecoder.decodeObject(forKey: "verificationUri") as! String
         let verificationUriComplete = aDecoder.decodeObject(forKey: "verificationUriComplete") as! String
         let expiresIn = aDecoder.decodeObject(forKey: "expiresIn") as! Date
-
+        let interval = aDecoder.decodeObject(forKey: "interval") as! TimeInterval
+        
         self.init(
             deviceCode: deviceCode,
             userCode: userCode,
             verificationUri: verificationUri,
             verificationUriComplete: verificationUriComplete,
-            expiresIn: expiresIn
+            expiresIn: expiresIn,
+            interval: interval
         )
     }
     
@@ -90,6 +96,7 @@ public class DeviceResponse: NSObject, JSONObjectPayload, NSSecureCoding {
         aCoder.encode(self.verificationUri, forKey: "verificationUri")
         aCoder.encode(self.verificationUriComplete, forKey: "verificationUriComplete")
         aCoder.encode(self.expiresIn, forKey: "expiresIn")
+        aCoder.encode(self.interval, forKey: "interval");
     }
 
     public static var supportsSecureCoding: Bool = true
